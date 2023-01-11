@@ -1,13 +1,9 @@
 <template>
-    <div class="SearchBar">
-        <input class="textField" type="text" v-model="searchValue" @keyup="onSearchEnter" placeholder="검색어를 입력하세요."/>
-        <button type="button" v-on:click="onSearch">검색</button>
-        <button type="button" v-on:click="openFilter">필터</button>
-        <SearchFilter
+    <div>
+        <SearchFilterForm
+            :originalDatas="originalDatas"
             :dataHeader="dataHeader"
-            :originalDatas="originalDatas"/>
-    </div>
-    <div style="margin-top:30px;">
+            @filterChange="filterChange"/>
         <table style="margin: auto;">
             <thead>
                 <tr>
@@ -23,25 +19,21 @@
                     <td>{{data.writer}}</td>
                 </tr>
             </tbody>
-
         </table>
-        
     </div>
 </template>
 
 <script>
-import SearchFilter from "./SearchFilter.vue";
+import SearchFilterForm from '../COMMON/SearchFilterForm.vue'
 
 export default {
-    name: 'SearchBar',
+    name: 'FreeBoard',
     components: {
-        SearchFilter
+        SearchFilterForm
     },
     props: {},
     data() {
         return {
-            searchOption:"",
-            searchValue:"",
             originalDatas:[
                 {
                     id:1,
@@ -111,57 +103,28 @@ export default {
                     searchAbled:true
                 },
             ],
-            searchDatas:[]
+            searchDatas:[],
         }
     },
     create(){},
     computed(){},
-    watch:{
-        // searchValue(value){
-        //     console.log(value);
-        // }
-    },
+    watch:{},
     mounted(){
         this.onLoad();
     },
     methods: {
         onLoad(){
             this.searchDatas = [...this.originalDatas];
-            // console.log(this.searchDatas[0]);
-        },  
-        onSearch(){
-            if(this.searchOption == "division"){
-                this.searchDatas = this.originalDatas.filter(item => item.division == this.searchValue);
-            }
-
-            if(this.searchOption == "title"){
-                this.searchDatas = this.originalDatas.filter(item => item.title.includes(this.searchValue));
-            }
-
-            if(this.searchOption == "writer"){
-                this.searchDatas = this.originalDatas.filter(item => item.writer == this.searchValue);
-            }
         },
-        onSearchEnter(e){
-            if(e.keyCode == 13){
-                this.onSearch();
-            }
-        },
-        onChange(e){
-            this.searchOption = e.target.value;
-            console.log(this.searchOption);
+        filterChange(v){
+            this.searchDatas = v;
         }
     },
 }
 </script>
 
-<style  scoped>
+<style scoped>
 table td,th{
     padding: 5px;
-}
-.SearchBar{
-    position: relative;
-    width: 700px;
-    margin: auto;
 }
 </style>

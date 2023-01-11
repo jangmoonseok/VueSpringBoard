@@ -1,16 +1,16 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <SearchBar/>
+  <FreeBoard/>
 </template>
 
 <script>
-import SearchBar from './components/COMMON/SearchBar.vue'
+import FreeBoard from './components/PAGE/FreeBoard.vue';
 
 export default {
   name: 'App',
   components: {
-    SearchBar
-  }
+    FreeBoard
+}
 }
 </script>
 
